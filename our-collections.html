@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Our Collection | Z&H Florist</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Parisienne&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <aside class="sidebar">
+      <div class="sidebar-content">
+        <div class="logo">Z&amp;H Florist</div>
+        <nav class="nav">
+          <a href="about.html">About</a>
+          <a href="our-collections.html" class="active">Our Collection</a>
+          <a href="events.html" class="active">Special Events</a>
+          <a href="gallery.html">Gallery</a>
+          <a href="contact.html">Contact</a>
+        </nav>
+      </div>
+    </aside>
+    <main class="main-content">
+      <div class="fade-in">
+        <section class="collection-section">
+          <h2>Our Collection</h2>
+          <hr>
+          <p>Discover our carefully curated selection of beautiful flower arrangements. Each piece is crafted with attention to detail, using the finest blooms to create stunning displays for any occasion. Flowers come and go per season, and prices range from the size of the bouquet. Please <a href="contact.html">contact us</a> for more information.</p>
+          <div class="flower-grid" id="flower-grid">
+            <div class="flower-card">
+              <img src="img/Arrangement-1.webp" alt="Flower Arrangement" class="flower-img">
+            </div>
+            <div class="flower-card">
+              <img src="img/Arrangement-2.webp" alt="Flower Arrangement" class="flower-img">
+            </div>
+            <div class="flower-card">
+              <img src="img/Arrangement-3.webp" alt="Flower Arrangement" class="flower-img">
+            </div>
+            <div class="flower-card">
+              <img src="img/Arrangement-4.webp" alt="Flower Arrangement" class="flower-img">
+            </div>
+            <div class="flower-card">
+              <img src="img/Arrangement-5.webp" alt="Flower Arrangement" class="flower-img">
+            </div>
+            <div class="flower-card">
+              <img src="img/Arrangement-6.webp" alt="Flower Arrangement" class="flower-img">
+            </div>
+            <div class="flower-card">
+              <img src="img/Arrangement-7.webp" alt="Flower Arrangement" class="flower-img">
+            </div>
+            <div class="flower-card">
+              <img src="img/Arrangement-8.webp" alt="Flower Arrangement" class="flower-img">
+            </div>
+            <div class="flower-card">
+              <img src="img/Arrangement-9.webp" alt="Flower Arrangement" class="flower-img">
+            </div>
+            <div class="flower-card">
+              <img src="img/Arrangement-10.webp" alt="Flower Arrangement" class="flower-img">
+            </div>
+            <div class="flower-card">
+              <img src="img/Arrangement-11.webp" alt="Flower Arrangement" class="flower-img">
+            </div>
+            <div class="flower-card">
+              <img src="img/Arrangement-12.webp" alt="Flower Arrangement" class="flower-img">
+            </div>
+            <div class="flower-card">
+              <img src="img/Arrangement-13.webp" alt="Flower Arrangement" class="flower-img">
+            </div>
+            <div class="flower-card">
+              <img src="img/Arrangement-14.webp" alt="Flower Arrangement" class="flower-img">
+            </div>
+            <div class="flower-card">
+              <img src="img/Arrangement-15.webp" alt="Flower Arrangement" class="flower-img">
+            </div>
+            <div class="flower-card">
+              <img src="img/Arrangement-16.webp" alt="Flower Arrangement" class="flower-img">
+            </div>
+            <div class="flower-card">
+              <img src="img/Arrangement-17.webp" alt="Flower Arrangement" class="flower-img">
+            </div>
+            <div class="flower-card">
+              <img src="img/Arrangement-18.webp" alt="Flower Arrangement" class="flower-img">
+            </div>
+            <div class="flower-card">
+              <img src="img/Arrangement-19.webp" alt="Flower Arrangement" class="flower-img">
+            </div>
+            <div class="flower-card">
+              <img src="img/Arrangement-20.webp" alt="Flower Arrangement" class="flower-img">
+            </div>
+            <div class="flower-card">
+              <img src="img/Arrangement-21.webp" alt="Flower Arrangement" class="flower-img">
+            </div>
+            <div class="flower-card">
+              <img src="img/Arrangement-22.webp" alt="Flower Arrangement" class="flower-img">
+            </div>
+            <div class="flower-card">
+              <img src="img/Arrangement-23.webp" alt="Flower Arrangement" class="flower-img">
+            </div>
+            <div class="flower-card">
+              <img src="img/Arrangement-24.webp" alt="Flower Arrangement" class="flower-img">
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+  <div id="lightbox-overlay" class="lightbox-overlay">
+    <span class="lightbox-close" id="lightbox-close">&times;</span>
+    <img id="lightbox-img" class="lightbox-img" src="" alt="Enlarged Flower">
+  </div>
+  <script>
+    // Lightbox logic
+    const lightboxOverlay = document.getElementById('lightbox-overlay');
+    const lightboxImg = document.getElementById('lightbox-img');
+    const lightboxClose = document.getElementById('lightbox-close');
+
+    function openLightbox(src, alt) {
+      lightboxImg.classList.remove('visible');
+      lightboxImg.src = src;
+      lightboxImg.alt = alt || '';
+      lightboxOverlay.classList.add('show');
+      // Wait for image to load before fading in
+      lightboxImg.onload = function() {
+        lightboxImg.classList.add('visible');
+      };
+    }
+
+    function closeLightbox() {
+      lightboxOverlay.classList.remove('show');
+      lightboxImg.classList.remove('visible');
+      lightboxImg.src = '';
+    }
+
+    lightboxClose.addEventListener('click', closeLightbox);
+    lightboxOverlay.addEventListener('click', function(e) {
+      if (e.target === lightboxOverlay) closeLightbox();
+    });
+
+    // Add click events to all flower images
+    document.querySelectorAll('.flower-img').forEach(img => {
+      img.addEventListener('click', function() {
+        openLightbox(this.src, this.alt);
+      });
+    });
+
+    window.addEventListener('DOMContentLoaded', function() {
+      document.querySelector('.fade-in').classList.add('show');
+    });
+  </script>
+</body>
+</html> 

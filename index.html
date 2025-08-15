@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Z&H Florist</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Parisienne&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <aside class="sidebar">
+      <div class="sidebar-content">
+        <div class="logo">Z&amp;H Florist</div>
+        <nav class="nav">
+          <a href="about.html">About</a>
+          <a href="our-collections.html">Our Collection</a>
+          <a href="events.html" class="active">Special Events</a>
+          <a href="gallery.html">Gallery</a>
+          <a href="contact.html">Contact</a>
+        </nav>
+      </div>
+    </aside>
+    <main class="main-content homepage-content">
+      <img src="img/hero-img.png" alt="Florist" class="main-image" id="hero-image">
+    </main>
+  </div>
+  <script>
+    // Parallax effect for hero image
+    const heroImage = document.getElementById('hero-image');
+    
+    // Add smooth transition to the image
+    heroImage.style.transition = 'transform 0.1s ease-out';
+    
+    // Use window/document for mouse tracking instead of main content
+    document.addEventListener('mousemove', function(e) {
+      const x = e.clientX;
+      const y = e.clientY;
+      
+      // Calculate movement based on window dimensions
+      const moveX = (x / window.innerWidth - 0.5) * 40; // 40px max movement
+      const moveY = (y / window.innerHeight - 0.5) * 30; // 30px for vertical movement
+      
+      // Apply transform with smooth transition
+      heroImage.style.transform = `translate(${moveX}px, ${moveY}px)`;
+    });
+    
+    // Reset position when mouse leaves the window
+    document.addEventListener('mouseleave', function() {
+      heroImage.style.transform = 'translate(0px, 0px)';
+    });
+  </script>
+</body>
+</html>

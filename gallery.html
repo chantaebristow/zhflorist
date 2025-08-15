@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gallery | Z&H Florist</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Parisienne&display=swap" rel="stylesheet">
+  <style>
+    .gallery-main-content {
+      flex: 1;
+      background: #111;
+      height: 100vh;
+      overflow: hidden;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .gallery-floating {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+    }
+    .gallery-img {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%) scale(var(--scale,1));
+      opacity: var(--opacity,0.7);
+      filter: blur(var(--blur,0px));
+      transition: opacity 0.4s, filter 0.4s, transform 0.4s cubic-bezier(0.4,0,0.2,1);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+      border-radius: 1em;
+      cursor: default;
+      pointer-events: auto;
+      z-index: var(--z,1);
+    }
+    .gallery-img:hover {
+      opacity: 1 !important;
+      filter: blur(0px) !important;
+      z-index: 10 !important;
+      transform: translateX(-50%) scale(1.15) !important;
+      cursor: default !important;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <aside class="sidebar">
+      <div class="sidebar-content">
+        <div class="logo">Z&amp;H Florist</div>
+        <nav class="nav">
+          <a href="about.html">About</a>
+          <a href="our-collections.html">Our Collection</a>
+          <a href="events.html" class="active">Special Events</a>
+          <a href="gallery.html" class="active">Gallery</a>
+          <a href="contact.html">Contact</a>
+        </nav>
+      </div>
+    </aside>
+    <main class="gallery-main-content">
+      <div class="gallery-floating" id="gallery-floating"></div>
+    </main>
+  </div>
+  <script>
+    // List of arrangement images (add more if needed)
+    const images = [
+      'img/Arrangement-1.webp',
+      'img/Arrangement-2.webp',
+      'img/Arrangement-3.webp',
+      'img/Arrangement-4.webp',
+      'img/Arrangement-5.webp',
+      'img/Arrangement-6.webp',
+      'img/Arrangement-7.webp',
+      'img/Arrangement-8.webp',
+      'img/Arrangement-9.webp',
+      'img/Arrangement-10.webp',
+      'img/Arrangement-11.webp',
+      'img/Arrangement-12.webp',
+      'img/Arrangement-13.webp',
+      'img/Arrangement-14.webp',
+      'img/Arrangement-15.webp',
+      'img/Arrangement-16.webp',
+      'img/Arrangement-17.webp',
+      'img/Arrangement-18.webp',
+      'img/Arrangement-19.webp',
+      'img/Arrangement-20.webp',
+      'img/Arrangement-21.webp',
+      'img/Arrangement-22.webp',
+      'img/Arrangement-23.webp',
+      'img/Arrangement-24.webp',
+
+    ];
+    const gallery = document.getElementById('gallery-floating');
+    
+    // Responsive grid configuration
+    function getGridConfig() {
+      const width = window.innerWidth;
+      if (width <= 480) {
+        return { columns: 2, imgWidth: 120, imgHeight: 120, hMargin: 20, vMargin: 20 };
+      } else if (width <= 768) {
+        return { columns: 3, imgWidth: 140, imgHeight: 140, hMargin: 25, vMargin: 25 };
+      } else if (width <= 1024) {
+        return { columns: 4, imgWidth: 160, imgHeight: 160, hMargin: 30, vMargin: 30 };
+      } else {
+        return { columns: 4, imgWidth: 200, imgHeight: 200, hMargin: 40, vMargin: 40 };
+      }
+    }
+    
+    let gridConfig = getGridConfig();
+    let columns = gridConfig.columns;
+    let rows = Math.ceil(images.length / columns);
+    let hMargin = gridConfig.hMargin;
+    let vMargin = gridConfig.vMargin;
+    let imgWidth = gridConfig.imgWidth;
+    let imgHeight = gridConfig.imgHeight;
+    let areaWidth = columns * (imgWidth + hMargin) - hMargin;
+    let areaHeight = rows * (imgHeight + vMargin) - vMargin;
+    let startX = (window.innerWidth - areaWidth) / 2;
+    let startY = (window.innerHeight - areaHeight) / 2;
+    // Each image floats upward at a unique speed for a dynamic effect
+    const floatingImages = images.map((src, i) => {
+      const col = i % columns;
+      const row = Math.floor(i / columns);
+      // Depth for 3D effect (closer rows are "deeper")
+      const depth = (row + 1) / rows; // 0 (top) to 1 (bottom)
+      const scale = 0.7 + 0.5 * depth;
+      const opacity = 0.3 + 0.7 * depth;
+      const blur = 2 * (1 - depth);
+      const z = Math.round(1 + 4 * depth);
+      const left = startX + col * (imgWidth + hMargin);
+      // Add a small random initial vertical offset
+      let top = startY + row * (imgHeight + vMargin) + (Math.random() - 0.5) * 30;
+      const img = document.createElement('img');
+      img.src = src;
+      img.className = 'gallery-img';
+      img.style.width = imgWidth + 'px';
+      img.style.height = imgHeight + 'px';
+      img.style.left = left + 'px';
+      img.style.top = top + 'px';
+      img.style.setProperty('--scale', scale);
+      img.style.setProperty('--opacity', opacity);
+      img.style.setProperty('--blur', blur + 'px');
+      img.style.setProperty('--z', z);
+      gallery.appendChild(img);
+      // Assign a unique random speed, phase, and sway amplitude to each image
+      const speed = 0.5 + 0.7 * Math.random();
+      const swayPhase = Math.random() * Math.PI * 2;
+      const swayAmp = 18 + Math.random() * 12; // px
+      const rotPhase = Math.random() * Math.PI * 2;
+      const rotAmp = 3 + Math.random() * 2; // deg
+      const breathePhase = Math.random() * Math.PI * 2;
+      return {img, col, row, left, top, scale, opacity, blur, z, speed, depth, swayPhase, swayAmp, rotPhase, rotAmp, breathePhase, origTop: top, fading: false, fade: 1};
+    });
+    // Animate upward floating in grid with natural effects
+    function animate(time) {
+      floatingImages.forEach(obj => {
+        // Upward movement
+        obj.top -= obj.speed;
+        // Slight rotation (sine wave)
+        const rot = Math.sin(time / 1200 + obj.rotPhase + obj.top / 300) * obj.rotAmp;
+        // Breathing effect for scale/opacity/blur
+        const breathe = Math.sin(time / 1400 + obj.breathePhase + obj.top / 400) * 0.08;
+        const scale = obj.scale + breathe;
+        const opacity = obj.opacity + breathe * 0.5;
+        const blur = Math.max(0, obj.blur - breathe * 1.5);
+        // Fade out only when leaving the top of the visible area
+        let fade = 1;
+        if (obj.top < startY - imgHeight + 40) {
+          fade = Math.max(0, (obj.top - (startY - imgHeight)) / 40);
+        }
+        obj.fade = fade;
+        // If image floats past the top, move it to the bottom of its column with a new random offset
+        if (obj.top < startY - imgHeight) {
+          obj.top = startY + (rows - 1) * (imgHeight + vMargin) + (Math.random() - 0.5) * 30;
+        }
+        // Apply styles (no horizontal sway)
+        obj.img.style.top = obj.top + 'px';
+        obj.img.style.left = obj.left + 'px';
+        obj.img.style.transform = `translateX(-50%) scale(${scale}) rotate(${rot}deg)`;
+        obj.img.style.opacity = (opacity * fade).toFixed(2);
+        obj.img.style.filter = `blur(${blur.toFixed(2)}px)`;
+        obj.img.style.zIndex = obj.z;
+      });
+      requestAnimationFrame(animate);
+    }
+    animate(performance.now());
+    
+    // Handle window resize
+    window.addEventListener('resize', () => {
+      const newConfig = getGridConfig();
+      if (newConfig.columns !== gridConfig.columns || 
+          newConfig.imgWidth !== gridConfig.imgWidth || 
+          newConfig.imgHeight !== gridConfig.imgHeight) {
+        
+        gridConfig = newConfig;
+        columns = gridConfig.columns;
+        rows = Math.ceil(images.length / columns);
+        hMargin = gridConfig.hMargin;
+        vMargin = gridConfig.vMargin;
+        imgWidth = gridConfig.imgWidth;
+        imgHeight = gridConfig.imgHeight;
+        areaWidth = columns * (imgWidth + hMargin) - hMargin;
+        areaHeight = rows * (imgHeight + vMargin) - vMargin;
+        startX = (window.innerWidth - areaWidth) / 2;
+        startY = (window.innerHeight - areaHeight) / 2;
+        
+        // Update existing images
+        floatingImages.forEach((obj, i) => {
+          const col = i % columns;
+          const row = Math.floor(i / columns);
+          const depth = (row + 1) / rows;
+          const scale = 0.7 + 0.5 * depth;
+          const opacity = 0.3 + 0.7 * depth;
+          const blur = 2 * (1 - depth);
+          const z = Math.round(1 + 4 * depth);
+          const left = startX + col * (imgWidth + hMargin);
+          const top = startY + row * (imgHeight + vMargin) + (Math.random() - 0.5) * 30;
+          
+          obj.col = col;
+          obj.row = row;
+          obj.left = left;
+          obj.top = top;
+          obj.scale = scale;
+          obj.opacity = opacity;
+          obj.blur = blur;
+          obj.z = z;
+          obj.origTop = top;
+          
+          obj.img.style.width = imgWidth + 'px';
+          obj.img.style.height = imgHeight + 'px';
+        });
+      }
+    });
+    
+    // On hover, bring image forward and increase opacity (handled by CSS)
+  </script>
+</body>
+</html> 
